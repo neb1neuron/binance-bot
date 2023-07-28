@@ -1,1 +1,133 @@
-<h5>Binance bot</h5>
+<div class="p-3">
+  <h5>Binance bot</h5>
+</div>
+
+<div class="row p-3">
+  <div class="col-6">
+    <div class="col-10">
+      <label for="symbol"
+             class="form-label">Symbol</label>
+      <input class="form-control"
+             id="symbol"
+             [(ngModel)]="symbol"
+             placeholder="soleur , etheur btcusd, etc">
+    </div>
+
+    <div class="col-10">
+      <label for="period"
+             class="form-label">Period</label>
+      <select [(ngModel)]="period"
+              class="form-select"
+              id="period"
+              aria-label="Default select example">
+        <option *ngFor="let period of periods"
+                selected>{{period}}</option>
+      </select>
+    </div>
+
+    <div class="col-10">
+      <label class="form-label">Buy Price(Euro)</label>
+      <input type="number"
+             class="form-control"
+             [(ngModel)]="buyPrice"
+             placeholder="">
+    </div>
+
+    <div class="col-10">
+      <label class="form-label">Buy of % from account money</label>
+      <input type="number"
+             class="form-control"
+             [(ngModel)]="buyPercent"
+             placeholder="">
+    </div>
+
+    <div class="col-10">
+      <label class="form-label">Fee</label>
+      <input type="number"
+             step=".1"
+             class="form-control"
+             [(ngModel)]="fee"
+             placeholder="">
+    </div>
+
+    <div class="col-10">
+      <label class="form-label">Sell Minimum Gain (%)</label>
+      <input type="number"
+             step=".1"
+             class="form-control"
+             [(ngModel)]="sellMinGainPercentage"
+             placeholder="">
+    </div>
+
+    <div class="col-10">
+      <label class="form-label">Buy Minimum Gain (%)</label>
+      <input type="number"
+             step=".1"
+             class="form-control"
+             [(ngModel)]="buyMinGainPercentage"
+             placeholder="">
+    </div>
+
+    <div>
+      <button class="btn btn-success mb-3 mt-3"
+              (click)="connectToStream()">Start</button>
+    </div>
+
+    <div>
+      <label for="symbol"
+             class="form-label">Closing prices :</label>
+      <ul class="list-group">
+        <li class="list-group-item"
+            [ngClass]="{'list-group-item-success' : closingPrince > closingPrices[i-1], 'list-group-item-danger' : closingPrince < closingPrices[i-1] }"
+            *ngFor="let closingPrince of closingPrices; let i = index">{{closingPrince}} </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <label class="form-label text-warning fw-bold">Money: {{accountLatest.walletMoney}} euros</label>
+    <br>
+    <label class="form-label text-success fw-bold">Coins({{symbol}}): {{accountLatest.walletCoins}}</label>
+
+    <div>
+      <label class="form-label">RSI Overbought (%)</label>
+      <input type="number"
+             class="form-control"
+             [(ngModel)]="rsiOverbought"
+             placeholder="">
+    </div>
+
+    <div>
+      <label class="form-label">RSI Oversold (%)</label>
+      <input type="number"
+             class="form-control"
+             [(ngModel)]="rsiOversold"
+             placeholder="">
+    </div>
+
+    <div>
+      <label class="form-label">RSI Period</label>
+      <input type="number"
+             step="1"
+             class="form-control"
+             [(ngModel)]="rsiPeriod"
+             placeholder="">
+    </div>
+
+
+    <div class="mt-3">
+      <label for="symbol"
+             class="form-label">Transactions :</label>
+      <small>
+        <ul class="list-group">
+          <li class="list-group-item"
+              [ngClass]="tr.type === 'sell' ? 'list-group-item-success' : 'list-group-item-warning'"
+              *ngFor="let tr of transactions">Id:{{tr.id}} / Type: {{tr.type}} / Q: {{tr.quantity}} / S: {{tr.symbol}} /
+            Price: {{tr.price}} /
+            Date:
+            {{tr.timestamp | date:'dd/MM/yy HH:mm:ss'}} </li>
+        </ul>
+      </small>
+    </div>
+  </div>
+</div>
