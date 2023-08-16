@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   wsUrl = environment.websocketUrl;
   periods = ['1s', '1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M'];
   symbol = 'soleur';
-  period = this.periods[1];
+  period = this.periods[0];
   isRunning = true;
   sendEmail = false;
 
@@ -119,6 +119,9 @@ export class AppComponent implements OnInit {
     let round = 0;
     this.websocketService.connect(this.wsUrl.replace('${symbol}', this.symbol).replace('${timePeriod}', this.period)).subscribe((data: any) => {
       let candle = data ? data['k'] : null;
+
+      this.fee++;
+
 
 
       if (candle) {

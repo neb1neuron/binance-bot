@@ -42,12 +42,13 @@
     </div>
 
     <div class="col-10">
-      <label class="form-label">Fee</label>
+      <label class="form-label">Fee {{fee}}</label>
       <input type="number"
              step=".1"
              class="form-control"
              [(ngModel)]="fee"
-             placeholder="">
+             placeholder=""
+             disabled>
     </div>
 
     <div class="col-10">
