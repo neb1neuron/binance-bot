@@ -1,0 +1,43 @@
+<div ngbDropdown
+     class="left-level-entry-container user-menu">
+  <button aria-haspopup="menu"
+          id="user-profile-button"
+          type="button"
+          class="user-menu-toggle"
+          [attr.aria-expanded]="!collapsed"
+          ngbDropdownToggle>
+    <span class="avatar">
+      {{this.fullNameInitials}}
+    </span>
+  </button>
+
+  <ul ngbDropdownMenu
+      aria-labelledby="user-profile-button"
+      class="dropdown-menu user-menu-dropdown"
+      [class.collapse]="collapsed">
+    <li ngbDropdownItem>
+      <div class="dropdown-item logout"
+           href="#"
+           (click)="logout()">
+        Logout
+      </div>
+    </li>
+    <li>
+      <hr class="dropdown-divider">
+    </li>
+    <li class="user-menu-wrapper">
+      <div class="avatar avatar-xs me-2">
+        {{this.fullNameInitials}}
+      </div>
+      <div>
+        <div>
+          <span class="user-name">{{userProfile?.fullName}}</span>
+          <span class="user-role">{{userProfile?.roleName}}</span>
+        </div>
+        <div class="user-email">
+          {{userProfile?.email}}
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

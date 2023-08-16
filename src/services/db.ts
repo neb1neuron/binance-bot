@@ -14,7 +14,8 @@ export interface Transaction {
   type: string;
   closedPrice: number;
   quantity: number;
-  price: number;
+  transactionPrice: number;
+  isActive: boolean;
 }
 
 export class AppDB extends Dexie {
@@ -23,7 +24,7 @@ export class AppDB extends Dexie {
 
   constructor() {
     super('db');
-    this.version(4).stores({
+    this.version(6).stores({
       account: '++id',
       transactions: '++id',
     });
@@ -32,7 +33,7 @@ export class AppDB extends Dexie {
 
   async populate() {
     await db.account.add({
-      walletMoney: 50,
+      walletMoney: 1000,
       walletCoins: 0,
       timestamp: new Date().getTime()
     });

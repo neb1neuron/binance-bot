@@ -1,0 +1,91 @@
+@import './../../../../scss/common/variables/colors/qia-colors.scss';
+@import './../../../../scss/bootstrap-custom-config/variables';
+
+@import "../../../../../node_modules/bootstrap/scss/mixins";
+
+.left-level-entry-container.user-menu {
+  display: flex;
+  justify-content: center;
+
+  .user-menu-toggle {
+    border: none;
+    background-color: transparent;
+
+    //overwrite the bootstrap style - hide arrow
+    &.dropdown-toggle::after {
+      display: none;
+    }
+  }
+
+  .avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+    @include rfs(50%, border-radius);
+
+    @include rfs(20px, font-size);
+    color: $body-bg;
+    background-color: $primary;
+
+    &-xs {
+      height: 37px;
+      width: 37px;
+
+      @include rfs(14px, font-size);
+    }
+  }
+
+  .user-menu-dropdown {
+    margin-bottom: 12px !important;
+
+    &::after {
+      content: '';
+
+      position: absolute;
+      left: 7.5%;
+
+      display: block;
+      width: 14px;
+      height: 14px;
+
+      clip: rect(0px, 18px, 18px, -4px);
+      transform: rotate(45deg) translate(-6px, -6px);
+
+      background-color: #fff;
+      box-shadow: rgb(117 117 117) 1px 1px 1px -1px;
+    }
+
+    .logout {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .user-menu-wrapper {
+      display: flex;
+      align-items: center;
+      @include rfs(1rem 6rem 1rem 1rem, padding);
+
+      .user-name {
+        font-weight: 500;
+        @include rfs(1.2rem, font-size);
+      }
+
+      .user-role {
+        @include rfs(.2rem .8rem, padding);
+        margin-left: .7rem;
+
+        @include rfs(.8rem, font-size);
+        @include rfs(3px, border-radius);
+        background-color: $qia-secondary-color-light-gray;
+      }
+
+      .user-email {
+        @include rfs(.9rem, font-size);
+        color: #646464;
+      }
+    }
+  }
+}

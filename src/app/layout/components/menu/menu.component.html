@@ -1,0 +1,18 @@
+<nav class="main-nav">
+  <ul class="main-menu">
+    <ng-container *ngFor="let page of pages">
+      <li *ngIf="canAccess(page.url)"
+          class="left-level-entry-container"
+          [ngbTooltip]="page.tooltip.text"
+          container="body"
+          placement="right">
+        <a [routerLink]="page?.url"
+           routerLinkActive="active">
+          <span class="material-symbols-outlined">
+            {{page.icon.name}}
+          </span>
+        </a>
+      </li>
+    </ng-container>
+  </ul>
+</nav>

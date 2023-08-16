@@ -1,0 +1,30 @@
+<ngb-toast *ngFor="let toast of toastService.toasts"
+           class="bottom-0 end-0 mb-1"
+           [ngClass]="[toast.messageType === messageTypes.Success ? 'toast-success' : '',
+                       toast.messageType === messageTypes.Info ? 'toast-info' : '',
+                       toast.messageType === messageTypes.Warning ? 'toast-warning' : '',
+                       toast.messageType === messageTypes.Error ? 'toast-danger' : '']"
+           [autohide]="toast.autohide"
+           (mouseenter)="cancelAutohide(toast)"
+           (mouseleave)="autohide(toast)"
+           [delay]="toast.delay || 5000"
+           (hidden)="toastService.remove(toast);
+                     toast.show;
+                     toast.autohide">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
+      <span class="material-symbols-outlined">
+        {{getIcon(toast.messageType)}}
+      </span>
+      <div class="ms-2 me-2 toast-value">
+        {{toast.body}}
+      </div>
+    </div>
+
+    <button type="button"
+            class="btn-close me-2"
+            data-bs-dismiss="toast"
+            aria-label="Close"></button>
+  </div>
+
+</ngb-toast>

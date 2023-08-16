@@ -26,10 +26,10 @@
     </div>
 
     <div class="col-10">
-      <label class="form-label">Buy Price(Euro)</label>
+      <label class="form-label">Current Price(Euro)</label>
       <input type="number"
              class="form-control"
-             [(ngModel)]="buyPrice"
+             [(ngModel)]="currentClosePrice"
              placeholder="">
     </div>
 
@@ -69,17 +69,20 @@
     </div>
 
     <div>
-      <button class="btn btn-success mb-3 mt-3"
-              (click)="connectToStream()">Start</button>
-    </div>
-
-    <div>
       <label for="symbol"
              class="form-label">Closing prices :</label>
       <ul class="list-group">
         <li class="list-group-item"
             [ngClass]="{'list-group-item-success' : closingPrince > closingPrices[i-1], 'list-group-item-danger' : closingPrince < closingPrices[i-1] }"
-            *ngFor="let closingPrince of closingPrices; let i = index">{{closingPrince}} </li>
+            *ngFor="let closingPrince of closingPrices; let i = index">
+          <span class="material-symbols-outlined me-3">
+            {{(closingPrince > closingPrices[i-1] ? 'trending_up' : closingPrince < closingPrices[i-1]
+              ? 'trending_down'
+              : 'trending_flat'
+              )}}
+              </span>
+              {{closingPrince}}
+        </li>
       </ul>
     </div>
   </div>
@@ -90,6 +93,25 @@
     <label class="form-label text-success fw-bold">Coins({{symbol}}): {{accountLatest.walletCoins}}</label>
 
     <div>
+      <button class="btn btn-success mb-3 mt-3"
+              (click)="startPriceService()">Start price update service</button>
+      <button class="btn btn-danger ms-3 mb-3 mt-3"
+              (click)="stopPriceService()">Stop price update service</button>
+      <br>
+      <button class="btn btn-success mb-3 mt-3"
+              (click)="start()">Start trading</button>
+      <button class="btn btn-danger ms-3 mb-3 mt-3"
+              (click)="stop()">Stop trading</button>
+      <button [disabled]="!this.currentClosePrice"
+              class="btn btn-primary ms-3 mb-3 mt-3"
+              (click)="buy()">Buy</button>
+      <button [disabled]="!this.accountLatest.walletCoins"
+              class="btn btn-warning ms-3 mb-3 mt-3"
+              (click)="sell()">Sell</button>
+    </div>
+
+    <!-- <app-candle-chart [data]="data"></app-candle-chart> -->
+    <!-- <div>
       <label class="form-label">RSI Overbought (%)</label>
       <input type="number"
              class="form-control"
@@ -112,22 +134,45 @@
              class="form-control"
              [(ngModel)]="rsiPeriod"
              placeholder="">
-    </div>
+    </div> -->
 
 
-    <div class="mt-3">
-      <label for="symbol"
-             class="form-label">Transactions :</label>
-      <small>
-        <ul class="list-group">
-          <li class="list-group-item"
-              [ngClass]="tr.type === 'sell' ? 'list-group-item-success' : 'list-group-item-warning'"
-              *ngFor="let tr of transactions">Id:{{tr.id}} / Type: {{tr.type}} / Q: {{tr.quantity}} / S: {{tr.symbol}} /
-            Price: {{tr.price}} /
-            Date:
-            {{tr.timestamp | date:'dd/MM/yy HH:mm:ss'}} </li>
-        </ul>
-      </small>
-    </div>
+  </div>
+
+  <div class="mt-3">
+    <label for="symbol"
+           class="form-label">Transactions :</label>
+    <small>
+      <table class="table table-dark">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Coin</th>
+            <th>Type</th>
+            <th>Quantity</th>
+            <th>ClosePrice</th>
+            <th>TransactionPrice</th>
+            <th>Date</th>
+            <th>isActive</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr [ngClass]="{'table-success' : tr.type === transactionTypes.sell , 'table-warning' : tr.type === transactionTypes.buy && tr.isActive}"
+              *ngFor="let tr of transactions">
+            <td>{{tr.id}}</td>
+            <td>{{tr.symbol}}</td>
+            <td>{{tr.type}}</td>
+            <td>{{tr.quantity}}</td>
+            <td>{{tr.closedPrice}}</td>
+            <td>{{tr.transactionPrice}}</td>
+            <td>{{tr.timestamp}}</td>
+            <td><span *ngIf="tr.isActive"
+                    class="material-symbols-outlined">
+                schedule
+              </span></td>
+          </tr>
+        </tbody>
+      </table>
+    </small>
   </div>
 </div>
