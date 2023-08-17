@@ -2,28 +2,230 @@
   <h5>Binance bot</h5>
 </div>
 
-<div class="row p-3">
-  <div class="col-6">
-    <div class="col-10">
-      <label for="symbol"
-             class="form-label">Symbol</label>
-      <input class="form-control"
-             id="symbol"
-             [(ngModel)]="symbol"
-             placeholder="soleur , etheur btcusd, etc">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm">
+      General Setup
+      <div class="input-group input-group-sm w-50">
+        <label class="input-group-text"
+               for="inputGroupSelect01">Coin Pair</label>
+        <select class="form-select"
+                id="inputGroupSelect01">
+          <option selected>Choose Coin Pair...</option>
+          <option value="soleur">SOL/EUR</option>
+          <option value="btcusd">BTC/EUR</option>
+          <option value="etheur">ETH/EUR</option>
+        </select>
+      </div>
+
+      <div class="input-group input-group-sm w-50">
+        <label class="input-group-text"
+               for="inPriceRefreshRate">Refresh Rate</label>
+        <select [(ngModel)]="period"
+                class="form-select"
+                id="inPriceRefreshRate">
+          <option *ngFor="let period of periods"
+                  selected>{{period}}</option>
+        </select>
+      </div>
+
+      <div class="input-group input-group-sm w-50">
+        <span class="input-group-text">Budget Start</span>
+        <input type="number"
+               class="form-control"
+               id="inBudgetStart"
+               [(ngModel)]="budgetStart"
+               min="0"
+               max="100000"
+               step="0.01">
+        <span class="input-group-text"> EUR</span>
+      </div>
+
+      <div class="input-group input-group-sm w-50">
+        <span class="input-group-text">Min Budget</span>
+        <input type="number"
+               class="form-control"
+               id="inBudgetMin"
+               [(ngModel)]="budgetMin"
+               min="0"
+               max="100000"
+               step="0.01">
+        <span class="input-group-text"> EUR</span>
+      </div>
+
+      <div class="input-group input-group-sm w-50">
+        <span class="input-group-text">Fee</span>
+        <input type="number"
+               class="form-control"
+               id="inFee"
+               [(ngModel)]="fee"
+               min="0"
+               max="100"
+               step="0.001">
+        <span class="input-group-text"> %</span>
+      </div>
+      <!-- <div class="col-10">
+        <label class="form-label">Fee {{fee}}</label>
+        <input type="number"
+               step=".1"
+               class="form-control"
+               [(ngModel)]="fee"
+               placeholder=""
+               disabled>
+      </div> -->
+
+      <div class="input-group input-group-sm w-50">
+        <span class="input-group-text">Inst. Buy Amount</span>
+        <input type="number"
+               class="form-control"
+               id="inBuy_InstAmountPct"
+               [(ngModel)]="buy_InstAmountPct"
+               min="0"
+               max="100"
+               step="0.01">
+        <span class="input-group-text"> %</span>
+      </div>
+
+      <div class="input-group input-group-sm w-50">
+        <span class="input-group-text">Inst. Sell Amount</span>
+        <input type="number"
+               class="form-control"
+               id="inSell_InstAmountPct"
+               [(ngModel)]="sell_InstAmountPct"
+               min="0"
+               max="100"
+               step="0.01">
+        <span class="input-group-text"> %</span>
+      </div>
+
+      <div class="input-group input-group-sm w-50">
+        <label class="input-group-text"
+               for="inBuyAtBottom">Buy At Bottom</label>
+        <select [(ngModel)]="buyAtBottom"
+                class="form-select"
+                id="inBuyAtBottom">
+          <option *ngFor="let buyAtBottom of yesno"
+                  selected>{{buyAtBottom}}</option>
+        </select>
+      </div>
+
+      <div class="input-group input-group-sm w-50">
+        <label class="input-group-text"
+               for="inSellAtPeak">Sell At Peak</label>
+        <select [(ngModel)]="sellAtPeak"
+                class="form-select"
+                id="inSellAtPeak">
+          <option *ngFor="let sellAtPeak of yesno"
+                  selected>{{sellAtPeak}}</option>
+        </select>
+      </div>
+
+      <div class="input-group input-group-sm w-50">
+        <span class="input-group-text">Wait Before Buy</span>
+        <input type="number"
+               class="form-control"
+               id="inWaitBeforeBuy"
+               [(ngModel)]="waitBeforeBuy"
+               min="0"
+               max="10000"
+               step="1">
+        <span class="input-group-text"> rounds</span>
+      </div>
+
+
+
+
+
+
+
+
+
+
+      <div class="col-10">
+        <label class="form-label">Sell Minimum Gain (%)</label>
+        <input type="number"
+               step=".1"
+               class="form-control"
+               [(ngModel)]="sellMinGainPercentage"
+               placeholder="">
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm">
+      One of three columns
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+  </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row p-3">
+  <div class="col-2">
+    <!-- General Setup -->
+
+
+
+
+
 
     <div class="col-10">
-      <label for="period"
-             class="form-label">Period</label>
-      <select [(ngModel)]="period"
-              class="form-select"
-              id="period"
-              aria-label="Default select example">
-        <option *ngFor="let period of periods"
-                selected>{{period}}</option>
-      </select>
+      <label for="inCoinPair"
+             class="form-label">Coin Pair</label>
+      <input class="form-control"
+             id="inCoinPair"
+             [(ngModel)]="symbol"
+             placeholder="soleur , etheur, btcusd, etc">
     </div>
+
+
 
     <div class="col-10">
       <label class="form-label">Current Price(Euro)</label>
@@ -41,15 +243,7 @@
              placeholder="">
     </div>
 
-    <div class="col-10">
-      <label class="form-label">Fee {{fee}}</label>
-      <input type="number"
-             step=".1"
-             class="form-control"
-             [(ngModel)]="fee"
-             placeholder=""
-             disabled>
-    </div>
+
 
     <div class="col-10">
       <label class="form-label">Sell Minimum Gain (%)</label>
@@ -109,6 +303,9 @@
       <button [disabled]="!this.accountLatest.walletCoins"
               class="btn btn-warning ms-3 mb-3 mt-3"
               (click)="sell()">Sell</button>
+      <button class="btn btn-primary mb-3 mt-3"
+              (click)="updateCounter()">Update Counter {{buyCounter}}</button>
+
     </div>
 
     <!-- <app-candle-chart [data]="data"></app-candle-chart> -->

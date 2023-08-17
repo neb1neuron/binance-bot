@@ -18,15 +18,22 @@ export interface Transaction {
   isActive: boolean;
 }
 
+export interface BuyCounter {
+  id?: number;
+  value: number;
+}
+
 export class AppDB extends Dexie {
   account!: Table<Account, number>;
   transactions!: Table<Transaction, number>;
+  buyCounter!: Table<BuyCounter, number>;
 
   constructor() {
     super('db');
     this.version(6).stores({
       account: '++id',
       transactions: '++id',
+      buyCounter: '++id',
     });
     this.on('populate', () => this.populate());
   }
@@ -37,6 +44,9 @@ export class AppDB extends Dexie {
       walletCoins: 0,
       timestamp: new Date().getTime()
     });
+    await db.buyCounter.add({
+      value: 0,
+    })
   }
 }
 

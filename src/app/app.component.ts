@@ -18,9 +18,10 @@ import { FileReaderService } from 'src/services/file-reader.service.ts.service';
 export class AppComponent implements OnInit {
   title = 'binance-bot';
   wsUrl = environment.websocketUrl;
-  periods = ['1s', '1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M'];
-  symbol = 'soleur';
-  period = this.periods[0];
+  symbol = ['soleur', 'btcusd', 'etheur']; //'soleur';
+  periods = ['1s', '30s', '1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d'];
+  period = this.periods[1];
+  yesno = ['no', 'yes'];
   isRunning = true;
   sendEmail = false;
 
@@ -35,8 +36,17 @@ export class AppComponent implements OnInit {
 
   accounts: Account[] = [];
 
+  budgetStart = 1000;
+  budgetMin = 100;
+  fee = 0.1;                            //  1 / 1000;
+  buy_InstAmountPct = 10;
+  sell_InstAmountPct = 100;
+  buyAtBottom = this.yesno[1];
+  sellAtPeak = this.yesno[1];
+  waitBeforeBuy = 30;
+
   currentClosePrice = 0;
-  fee = 1 / 1000;
+
   sellMinGainPercentage = 5 / 1000;
   buyMinGainPercentage = 2 / 1000;
 
@@ -57,6 +67,8 @@ export class AppComponent implements OnInit {
   closingPrices: number[] = [];
 
   transactions: Transaction[] = [];
+
+  buyCounter = 0;
   // buyTransactions: Transaction[] = [];
 
   constructor(private websocketService: WebsocketService,
@@ -75,6 +87,11 @@ export class AppComponent implements OnInit {
     let transactions = liveQuery(() => db.transactions.toArray());
     transactions.subscribe(tr => {
       this.transactions = tr;
+    });
+
+    let buyCounter = liveQuery(() => db.buyCounter.get(1));
+    buyCounter.subscribe(bc => {
+      this.buyCounter = bc?.value || 0;
     });
   }
 
@@ -333,6 +350,12 @@ export class AppComponent implements OnInit {
       time: ${new Date(this.currentTime).toLocaleString()}`, this.sendEmail);
 
     console.log('wallet money (E): ', walletMoney);
+  }
+
+  async updateCounter() {
+    await db.buyCounter.update(1, {
+      value: this.buyCounter++,
+    })
   }
 
   async buy() {
